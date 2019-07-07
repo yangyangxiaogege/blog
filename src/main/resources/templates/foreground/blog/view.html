@@ -1,0 +1,98 @@
+<div id="content">
+	<div class="data_list">
+		<div class="data_list_title">
+			<i class="glyphicon glyphicon-th-large"></i> 博客信息
+		</div>
+		<div>
+			<div class="blog_title">
+				<h3>
+					<strong th:text="${blog.title}">标题</strong>
+				</h3>
+			</div>
+			<div class="blog_share">
+				<div class="bshare-custom">
+					<a title="分享到QQ空间" class="bshare-qzone"></a><a title="分享到新浪微博"
+						class="bshare-sinaminiblog"></a><a title="分享到人人网"
+						class="bshare-renren"></a><a title="分享到腾讯微博"
+						class="bshare-qqmb"></a><a title="分享到网易微博"
+						class="bshare-neteasemb"></a><a title="更多平台"
+						class="bshare-more bshare-more-icon more-style-addthis"></a><span
+						class="BSHARE_COUNT bshare-share-count">0</span>
+				</div>
+				<script type="text/javascript" charset="utf-8"
+					src="http://static.bshare.cn/b/buttonLite.js#style=-1&amp;uuid=&amp;pophcol=2&amp;lang=zh"></script>
+				<script type="text/javascript" charset="utf-8"
+					src="http://static.bshare.cn/b/bshareC0.js"></script>
+			</div>
+			<div class="blog_info">
+				发布时间：『<span th:text="${#dates.format(blog.releaseDate,'yyyy-MM-dd HH:mm:ss')}">2019-01-01 12:25:30</span>』&nbsp;&nbsp;
+				博客类别：<span th:text="${blog.blogtype.typeName}">Java基础分类</span>&nbsp;&nbsp;
+				阅读(<span th:text="${blog.clickHit}">20</span>)
+				评论(<span th:text="${blog.replyHit}">20</span>)
+			</div>
+			<div class="blog_content" th:utext="${blog.content }"></div>
+			<div class="blog_keyWord">
+			<font><strong>关键字：</strong></font>
+			<font th:if="${keyWords == nul}">
+					&nbsp;&nbsp;无关键字
+			</font>
+			<font th:if="${keyWords != null}" th:each="keyWord :${keyWords}">
+					&nbsp;&nbsp;&nbsp;&nbsp;<a th:href="@{/blog/query(keyWord=${blog.keyWord})}" target="_blank" th:text="${keyWord}">Java</a>&nbsp;&nbsp;
+			</font>
+				
+		</div>
+		<div class="blog_lastAndNextPage" th:utext="${prevAndNextHtml}"></div>
+		</div>
+	</div>
+	<div class="data_list">
+		<div class="data_list_title">
+			<i class="glyphicon glyphicon-comment"></i> 评论信息
+		</div>
+		<div id="commentblock">
+			<!-- blogId -->
+			<input type="hidden" id="blogId" th:value="${blog.id }">
+			<div class="form-group">
+			    <textarea style="height: 100px;" id="comment" placeholder="来说两句吧..." class="form-control"></textarea>
+			</div>
+			<div class="form-group pull-right">
+			     <button id="commentBtn" type="button" class="btn btn-success">评论</button>
+			 </div>
+			 <script type="text/javascript">
+			 	$(function(){
+			 		// 发表评论
+			 		$('#commentBtn').click(function(){
+			 			var content = $('#comment').val().trim();
+				 		var blogId = $('#blogId').val();
+				 		
+				 		if(content == null || content == ''){
+				 			alert('评论内容不能为空');
+				 			return false;
+				 		}
+				 		
+				 		$.post('/comment/addComment',{"content":content,"blogId":blogId},function(data){
+				 			if(data.success == false){
+				 				alert('发表评论失败，请稍后重试');
+				 			}else{
+				 				alert('评论发表成功，目前尚在审核中');
+				 				$('#comment').val('');
+				 			}
+				 			
+				 		},'json')
+			 		})
+			 	})
+			 </script>
+		</div>
+		<div class="commentDatas">
+			<div class="comment" th:if="${commentList.size() == 0}">
+				<div class="content text-center bg-info text-info">还没有评论，快来抢沙发吧！</div>
+			</div>
+			<div class="comment" th:if="${commentList.size() > 0}" th:each="comment,i : ${commentList}">
+				<div class="content bg-info text-info">
+					<span th:text="${i.count}">1</span>楼：
+					<span th:text="${comment.content}">抢沙发....233333333~~</span>
+					<span class="commentDate" th:text="${#dates.format(commentDate,'yyyy-MM-dd HH:mm:ss')}">2019-06-05 19:30:32</span>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

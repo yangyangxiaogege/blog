@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>个人博客系统-首页</title>
+<link href="/source/bootstrap/css/bootstrap.css" rel="stylesheet">
+<link href="/source/css/blog.css" rel="stylesheet">
+<script src="/source/js/jquery-3.4.1.min.js"></script>
+<script src="/source/bootstrap/js/bootstrap.min.js"></script>
+<!-- <script src="/source/js/include.js"></script> -->
+<script src="/source/js/leftmenu.js"></script>
+<script type="text/javascript" src="/source/ueditor/third-party/SyntaxHighlighter/shCore.js"></script>
+<link rel="stylesheet" href="/source/ueditor/third-party/SyntaxHighlighter/shCoreDefault.css">
+<script type="text/javascript">
+    SyntaxHighlighter.all();
+</script>
+</head>
+<body>
+	<div class="container-fluid">
+		<!--头部-->
+		<div id="header">
+			<!-- 引入外部文件，#h是引入文件中的模块 -->
+			<div th:include="foreground/common/header::#h"></div>
+		</div>
+		<div class="row" style="margin-top: 80px">
+			<!-- 左侧导航栏 -->
+			<div id="leftMenu">
+				<div th:include="foreground/common/leftmenu::#lm"></div>
+			</div>
+			<div class="col-md-9">
+				<!-- 内容区域 -->
+				<div th:include="${pageContent}::#content"></div>
+			</div>
+		</div>
+		<!-- 底部部分 -->
+		<div id="footer">
+			<div th:include="foreground/common/footer::#f"></div>
+		</div>
+	</div>
+</body>
+</html>
