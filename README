@@ -1,0 +1,5 @@
+# 个人博客
+
+## 概述
+
+这是一个`个人博客`项目，使用了Spring Boot,Mybatis Plus,Shiro,Redis,Lucence,SpringMV,Thymeleaf等技术
